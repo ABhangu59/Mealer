@@ -63,8 +63,8 @@ public class User{
 	public boolean isLoggedIn()	{ return logInStatus == true; }
 
 	//log in and out
-	public void logIn()			{ logInStatus = true; }
-	public void logOut()		{ logInStatus = false; }
+	public void logIn()		{ logInStatus = true; }
+	public void logOut()	{ logInStatus = false; }
 
 
 }

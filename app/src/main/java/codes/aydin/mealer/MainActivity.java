@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final TextView signup=(TextView)findViewById(R.id.signup);
+        final TextView signup = (TextView)findViewById(R.id.signup);
         signup.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {

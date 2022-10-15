@@ -88,10 +88,11 @@
                 android:layout_weight="0" />
 
             <TextView
-                android:id="@+id/txtSignUp"
+                android:id="@+id/signup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
+                android:onClick="onClick"
                 android:clickable="true"
                 android:text="Sign Up"
                 android:textColor="@color/green" />

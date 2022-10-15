@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mealer"
         tools:targetApi="31">
+
+        <!-- Main Activity -->
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -25,6 +28,18 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <!-- Sign Up Activity -->
+
+        <activity
+            android:name=".SignUp"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="codes.aydin.mealer.SignUp" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

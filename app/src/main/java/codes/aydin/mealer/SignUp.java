@@ -171,8 +171,10 @@ public class SignUp extends Activity {
                     Toast.makeText(getApplicationContext(),
                         "Please fill out all of the fields", Toast.LENGTH_LONG).show();
                 else {
+
                     Intent submitInfo = new Intent(getApplicationContext(),WelcomePage.class);
                     startActivity(submitInfo);
+                    finish();
                 }
             }
         });

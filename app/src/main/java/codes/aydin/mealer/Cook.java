@@ -1,6 +1,7 @@
 package codes.aydin.mealer;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import codes.aydin.mealer.User;
 
@@ -24,6 +25,9 @@ public class Cook extends User {
 	/*
 	 * voidCheque is temporarily being stored as a String
 	 * until we figure out a way to store image objects
+	 *
+	 * Note from Aydin: this will be stored as a blob in the database,
+	 * then decoded to be used as needed
 	 */
 	private String voidCheque; 
 
@@ -32,9 +36,6 @@ public class Cook extends User {
 	 * This will allow for easy manipulation of the menu
 	 */
 	private ArrayList<Dish> menu;
-
-	
-
 
 	/*
 	 * Constructor
@@ -51,12 +52,16 @@ public class Cook extends User {
 
 	//getters
 	public String getPersonalDescription() { return personalDescription; }
-	public String getVoidCheque()		   { return voidCheque; }
+	public String getVoidCheque() { return voidCheque; }
 
 	//setters
-	public void setPersonalDescription( String newDesc) { personalDescription = newDesc; }
-	public void setVoidCheque(String newCheque)		    { voidCheque = newCheque; }
+	public void setPersonalDescription( String personalDescription) { this.personalDescription = personalDescription; }
+	public void setVoidCheque(String voidCheque) { this.voidCheque = voidCheque; }
 
-	//have to fugure out getters and setters regarding the menu//
+	//have to figure out getters and setters regarding the menu//
+	public ArrayList<Dish> getMenu() { return menu; }
+
+	public void addDish(Dish dish) { menu.add(dish); }
+	public void addDish(Collection<Dish> dishes) { menu.addAll(dishes); }
 	
 }

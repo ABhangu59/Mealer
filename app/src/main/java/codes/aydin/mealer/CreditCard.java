@@ -16,19 +16,21 @@ public class CreditCard{
 	 * Instance variables
 	 */
 	private String nameOnCard;
-	private short creditCardNum;
-	private short expiration;
-	private short cvc;
+	private String creditCardNum;
+	private String expirationMonth;
+	private String expirationYear;
+	private String cvv;
 
 	/*
 	 * Constructor
 	 */
-	public CreditCard(String nameOnCard, short creditCardNum, short expiration, short cvc){
+	public CreditCard(String nameOnCard, String creditCardNum, String expirationMonth, String expirationYear, String cvv){
 
 		this.nameOnCard = nameOnCard;
 		this.creditCardNum = creditCardNum;
-		this.expiration = expiration;
-		this.cvc = cvc;
+		this.expirationMonth = expirationMonth;
+		this.expirationYear = expirationYear;
+		this.cvv = cvv;
 	}
 
 	/*
@@ -36,14 +38,16 @@ public class CreditCard{
 	 */
 
 	//getters
-	public String getNameOnCard()	{ return nameOnCard; }
-	public short getCreditCardNum()	{ return creditCardNum; }
-	public short getExpiration()	{ return expiration; }
-	public short getCVC()			{ return cvc; }
+	public String getNameOnCard() { return nameOnCard; }
+	public String getCreditCardNum() { return creditCardNum; }
+	public String getExpirationMonth() { return expirationMonth; }
+	public String getExpirationYear() { return expirationYear; }
+	public String getCVV() { return cvv; }
 
 	//setters
-	public void setNameOnCard(String newNameCard)  { nameOnCard = newNameCard; }
-	public void setCreditCardNum(short newCardNum) { creditCardNum = newCardNum; }
-	public void setExpiration(short newExpiration) { expiration = newExpiration; }
-	public void setCVC(short newCVC)			   { cvc = newCVC; }
+	public void setNameOnCard(String nameOnCard)  { this.nameOnCard = nameOnCard; }
+	public void setCreditCardNum(String creditCardNum) { this.creditCardNum = creditCardNum; }
+	public void setExpirationMonth(String expirationMonth) { this.expirationMonth = expirationMonth; }
+	public void setExpirationYear(String expirationYear) { this.expirationYear = expirationYear; }
+	public void setCVV(String newCVC) { this.cvv = cvv; }
 }

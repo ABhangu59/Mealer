@@ -10,6 +10,8 @@ package codes.aydin.mealer;/*
  * - Once stored the details about each dish can be edited
  */
 
+//TODO Do we need cuisine type and meal type?
+
 public class Dish{
 
 	/*
@@ -47,7 +49,7 @@ public class Dish{
 	public String getCuisineType()	{ return cuisineType; }
 	public String getIngredients()	{ return ingredients; }
 	public String getAllergens()	{ return allergens; }
-	public String getDesription()	{ return description; }
+	public String getDescription()	{ return description; }
 	public double getPrice()		{ return price; }
 
 	//setters

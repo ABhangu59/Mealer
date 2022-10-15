@@ -20,13 +20,13 @@ public class User {
 	private String lastName;
 	private String email;
 	private String password;
-	private String address;
+	private Address address;
 	private boolean logInStatus;
 
 	/*
 	 * Constructor
 	 */
-	public User(String firstName, String lastName, String email, String password, String address){
+	public User(String firstName, String lastName, String email, String password, Address address){
 		
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -45,14 +45,14 @@ public class User {
 	public String getLastName()		{ return lastName; }
 	public String getEmail()		{ return email; }
 	public String getPassword()		{ return password; }
-	public String getAddress()		{ return address; }
+	public Address getAddress()		{ return address; }
 
 	//setters
 	public void setFirstName(String newFirst)	{ firstName = newFirst; }
 	public void setLastName(String newLast)		{ lastName = newLast; }
 	public void setEmail(String newEmail)		{ email = newEmail; }
 	public void setPassword(String newPass)		{ password = newPass; }
-	public void setAddress(String newAddress)	{ address = newAddress; }
+	public void setAddress(Address newAddress)	{ address = newAddress; }
 
 	
 

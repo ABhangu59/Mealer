@@ -21,12 +21,10 @@ public class Client extends User {
 	/*
 	 * Constructor
 	 */
-	public Client(String firstName, String lastName, String email, String password, String address, 
-				  String nameOnCard, short creditCardNum, short expiration, short cvc){
+	public Client(String firstName, String lastName, String email, String password, String address, CreditCard creditCard){
 		
 		super(firstName,lastName, email, password, address);
-
-		creditCard = new CreditCard(nameOnCard, creditCardNum, expiration, cvc);
+		this.creditCard = creditCard;
 	}
 
 	/*

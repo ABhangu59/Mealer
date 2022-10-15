@@ -1,4 +1,8 @@
+package codes.aydin.mealer;
+
 import java.util.ArrayList;
+
+import codes.aydin.mealer.User;
 
 /*
  * Date: Oct 7, 2022
@@ -11,7 +15,7 @@ import java.util.ArrayList;
  * - It also stores the cook's menu as an ArrayList using the built in Java class
  */
 
-public class Cook extends User{
+public class Cook extends User {
 
 	//Instance variables
 

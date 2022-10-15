@@ -1,3 +1,5 @@
+package codes.aydin.mealer;
+
 public class Admin extends User{
 	
 	/*

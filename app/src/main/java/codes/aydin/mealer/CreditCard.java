@@ -1,4 +1,4 @@
-/*
+package codes.aydin.mealer;/*
  * Date: Oct 7, 2022
  * Student: Mustafa Ahmed 
  * Student No: 300242013

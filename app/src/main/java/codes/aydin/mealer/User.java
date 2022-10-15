@@ -1,3 +1,4 @@
+package codes.aydin.mealer;
 /*
  * Date: Oct 7, 2022
  * Student: Mustafa Ahmed 
@@ -10,7 +11,7 @@
  */
 
 
-public class User{
+public class User {
 
 	/*
 	 * Instance variables

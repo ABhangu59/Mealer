@@ -1,4 +1,4 @@
-/*
+package codes.aydin.mealer;/*
  * Date: Oct 7, 2022
  * Student: Mustafa Ahmed 
  * Student No: 300242013
@@ -9,8 +9,7 @@
  * - The credit card is stored as a "CreditCard" object.
  */
 
-
-public class Client extends User{
+public class Client extends User {
 
 	/*
 	 * Instance variables

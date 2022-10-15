@@ -40,6 +40,17 @@
             </intent-filter>
         </activity>
 
+        <!-- Welcome Activity -->
+
+        <activity android:name=".WelcomePage"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="codes.aydin.mealer.WelcomePage" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
     </application>
 
 </manifest>

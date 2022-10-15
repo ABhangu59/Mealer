@@ -3,11 +3,13 @@ package codes.aydin.mealer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -16,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.util.regex.Pattern;
 import android.net.Uri;
 
@@ -63,7 +66,15 @@ public class SignUp extends Activity {
             }
         });
 
+        SelectImage = findViewById(R.id.selectImage);
+        PreviewImage = findViewById(R.id.previewImage);
 
+        SelectImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageChooser();
+            }
+        });
 
 
         final Button signUp = (Button) findViewById(R.id.btnSignUp);
@@ -142,23 +153,30 @@ public class SignUp extends Activity {
                     EditText bioText = (EditText) findViewById(R.id.txtCookBio);
                     bio = bioText.getText().toString().trim();
                     if (bio.isEmpty()) valid = false;
+
+                    ImageView preview = (ImageView) findViewById(R.id.previewImage);
+                    Drawable img = preview.getDrawable();
+
+                    if (img == null) valid = false;
+                    else {
+                        BitmapDrawable bitDw = ((BitmapDrawable) img);
+                        Bitmap bitmap = bitDw.getBitmap();
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                        byte[] imageInByte = stream.toByteArray();
+                    }
                 }
 
                 if (!valid)
                     Toast.makeText(getApplicationContext(),
                         "Please fill out all of the fields", Toast.LENGTH_LONG).show();
-
+                else {
+                    Intent submitInfo = new Intent(getApplicationContext(),WelcomePage.class);
+                    startActivity(submitInfo);
+                }
             }
         });
-        SelectImage = findViewById(R.id.selectImage);
-        PreviewImage = findViewById(R.id.previewImage);
 
-        SelectImage.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               imageChooser();
-           }
-        });
     }
 
     void imageChooser() {

@@ -10,8 +10,6 @@ package codes.aydin.mealer;/*
  * - Once stored the details about each dish can be edited
  */
 
-//TODO Do we need cuisine type and meal type?
-
 public class Dish{
 
 	/*

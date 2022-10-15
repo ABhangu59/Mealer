@@ -124,13 +124,15 @@ public class SignUp extends Activity {
                 RadioGroup accountType = (RadioGroup) findViewById(R.id.accountSelection);
 
                 int choice = accountType.getCheckedRadioButtonId();
+                String userType = "";
 
-                String creditCardNumber;
-                String creditCardMonth;
-                String creditCardYear;
-                String creditCardCVV;
+                String creditCardNumber = null;
+                String creditCardMonth = null;
+                String creditCardYear = null;
+                String creditCardCVV = null;
 
                 if (choice == R.id.radioClient) {
+                    userType = "client";
                     EditText creditCardNumberText = (EditText) findViewById(R.id.txtCCNumber);
                     creditCardNumber = creditCardNumberText.getText().toString().trim();
                     if (creditCardNumber.length() != 16) valid = false;
@@ -147,9 +149,10 @@ public class SignUp extends Activity {
 
                 }
 
-                String bio;
+                String bio = null;
 
                 if (choice == R.id.radioCook) {
+                    userType = "cook";
                     EditText bioText = (EditText) findViewById(R.id.txtCookBio);
                     bio = bioText.getText().toString().trim();
                     if (bio.isEmpty()) valid = false;
@@ -167,12 +170,24 @@ public class SignUp extends Activity {
                     }
                 }
 
+                //TODO check if user already exists once database is set up
+
                 if (!valid)
                     Toast.makeText(getApplicationContext(),
                         "Please fill out all of the fields", Toast.LENGTH_LONG).show();
                 else {
 
-                    Intent submitInfo = new Intent(getApplicationContext(),WelcomePage.class);
+                    User user = null;
+                    Address address = new Address(address1, address2, city, province, postalCode);
+
+                    if (userType.equals("client")) {
+                        user = new Client(firstName, lastName, email, password, address,
+                                new CreditCard(firstName + " " + lastName, creditCardNumber, creditCardMonth, creditCardYear, creditCardCVV));
+                    } else if (userType.equals("cook")) {
+                        user = new Cook(firstName, lastName, email, password, address, bio, "");
+                    }
+
+                    Intent submitInfo = new Intent(getApplicationContext(),WelcomePage.class).putExtra("type", userType);
                     startActivity(submitInfo);
                     finish();
                 }

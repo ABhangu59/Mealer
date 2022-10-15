@@ -31,6 +31,12 @@ public class Cook extends User {
 	 */
 	private String voidCheque; 
 
+	private double rating;
+	private int mealsSold;
+	private boolean isSuspended;
+
+	private ArrayList<Review> reviews;
+	private ArrayList<Order> requests;
 	/*
 	 * The Cook's menu is being stored as an array list of Dish objects. 
 	 * This will allow for easy manipulation of the menu
@@ -40,14 +46,22 @@ public class Cook extends User {
 	/*
 	 * Constructor
 	 */
-	public Cook(String firstName, String lastName, String email, String password, String address,
-				String personalDescription){
+	public Cook(String firstName, String lastName, String email, String password, Address address,
+				String personalDescription, String voidCheque){
 
 		super(firstName,lastName, email, password, address);
 
 		this.personalDescription = personalDescription;
-		voidCheque = "This is a placeholder until we have a real image";
+		this.voidCheque = voidCheque;
+
+		this.rating = 0;
+		this.mealsSold = 0;
+
 		menu = new ArrayList<Dish>();
+		reviews = new ArrayList<Review>();
+		requests = new ArrayList<Order>();
+
+		isSuspended = false;
 	}
 
 	//getters
@@ -63,5 +77,9 @@ public class Cook extends User {
 
 	public void addDish(Dish dish) { menu.add(dish); }
 	public void addDish(Collection<Dish> dishes) { menu.addAll(dishes); }
+
+	public void setSuspended(boolean isSuspended) {
+		this.isSuspended = isSuspended;
+	}
 	
 }

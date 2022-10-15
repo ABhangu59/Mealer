@@ -35,7 +35,8 @@
             <RadioGroup
                 android:id="@+id/accountSelection"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:checkedButton="@id/radioClient">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -192,7 +193,7 @@
                         android:entries="@array/Provinces" />
 
                     <EditText
-                        android:id="@+id/editTextTextPersonName2"
+                        android:id="@+id/txtPostalCode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -269,7 +270,8 @@
                 android:id="@+id/cookInfo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/txtCookBio"

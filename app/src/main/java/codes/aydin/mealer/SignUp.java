@@ -1,8 +1,9 @@
 package codes.aydin.mealer;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Locale;
 import java.util.regex.Pattern;
 import android.net.Uri;
 
@@ -32,6 +34,7 @@ public class SignUp extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        DBHelper DBHelper = new DBHelper(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
@@ -42,6 +45,9 @@ public class SignUp extends Activity {
                 finish();
             }
         });
+
+        final ImageView logo = (ImageView) findViewById(R.id.imgSignUpLogo);
+        logo.setImageResource(R.drawable.mealer_logo);
 
         final RadioGroup accountType = (RadioGroup) findViewById(R.id.accountSelection);
         accountType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -96,7 +102,7 @@ public class SignUp extends Activity {
                 if (lastName.isEmpty()) valid = false;
 
                 EditText emailText = (EditText) findViewById(R.id.txtEmail);
-                String email = emailText.getText().toString().trim();
+                String email = emailText.getText().toString().trim().toLowerCase(Locale.ROOT);
                 if (email.isEmpty() || !emailPattern.matcher(email).matches()) valid = false;
 
                 EditText passwordText = (EditText) findViewById(R.id.txtPassword);
@@ -118,7 +124,7 @@ public class SignUp extends Activity {
                 String province = provinceSpinner.getSelectedItem().toString().trim();
 
                 EditText postalCodeText = (EditText) findViewById(R.id.txtPostalCode);
-                String postalCode = postalCodeText.getText().toString().trim();
+                String postalCode = postalCodeText.getText().toString().trim().toUpperCase(Locale.ROOT);
                 if (postalCode.isEmpty() || !postalPattern.matcher(postalCode).matches()) valid = false;
 
                 RadioGroup accountType = (RadioGroup) findViewById(R.id.accountSelection);
@@ -186,6 +192,37 @@ public class SignUp extends Activity {
                     } else if (userType.equals("cook")) {
                         user = new Cook(firstName, lastName, email, password, address, bio, "");
                     }
+
+                    SQLiteDatabase db = DBHelper.getWritableDatabase();
+
+                    ContentValues user_values = new ContentValues();
+                    user_values.put("type", userType);
+                    user_values.put("first_name", firstName);
+                    user_values.put("email", email);
+                    user_values.put("last_name", lastName);
+                    user_values.put("password", password);
+                    user_values.put("bio", bio);
+                    user_values.put("void_cheque", "");
+                    db.insert("Users", null, user_values);
+
+                    ContentValues address_values = new ContentValues();
+                    address_values.put("email", email);
+                    address_values.put("address_1", address1);
+                    address_values.put("address_2", address2);
+                    address_values.put("city", city);
+                    address_values.put("province", province);
+                    address_values.put("postal_code", postalCode);
+                    db.insert("Addresses", null, address_values);
+
+                    ContentValues credit_values = new ContentValues();
+                    credit_values.put("email", email);
+                    credit_values.put("full_name", firstName + " " + lastName);
+                    credit_values.put("number", creditCardNumber);
+                    credit_values.put("expiration_month", creditCardMonth);
+                    credit_values.put("expiration_year", creditCardYear);
+                    credit_values.put("cvv", creditCardCVV);
+                    db.insert("Credit", null, credit_values);
+
 
                     Intent submitInfo = new Intent(getApplicationContext(),WelcomePage.class).putExtra("type", userType);
                     startActivity(submitInfo);

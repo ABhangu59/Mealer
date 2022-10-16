@@ -14,7 +14,7 @@
         android:paddingRight="15dp">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imgWelcomeLogo"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center"
@@ -41,6 +41,7 @@
             android:id="@+id/btnLogOut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/green"
             android:text="Log Out" />
 
     </LinearLayout>

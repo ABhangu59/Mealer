@@ -16,8 +16,11 @@ public class Dish{
 	 * Instance variables
 	 */
 	String mealName;
+
+	//Maybe make these enumerates
 	String mealType;
 	String cuisineType;
+
 	String ingredients;
 	String allergens;
 	String description;

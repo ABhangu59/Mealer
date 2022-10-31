@@ -8,9 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String USER_TABLE_NAME = "Users";
-    public static final String ADDRESS_TABLE_NAME = "Addresses";
-    public static final String CREDIT_TABLE_NAME = "Credit";
+    public static final String USER_TABLE_NAME = "users";
+    public static final String ADDRESS_TABLE_NAME = "addresses";
+    public static final String CREDIT_TABLE_NAME = "credit_cards";
+    public static final String COMPLAINT_TABLE_NAME = "complaints";
+    public static final String SUSPENSION_TABLE_NAME = "suspensions";
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Mealer.db";
@@ -31,15 +33,24 @@ public class DBHelper extends SQLiteOpenHelper {
                 "void_cheque VARCHAR," +
                 "PRIMARY KEY (email))");
 
-        ContentValues values = new ContentValues();
-        values.put("type", "admin");
-        values.put("first_name", "Admin");
-        values.put("email", "mealeradmin");
-        values.put("last_name", "User");
-        values.put("password", "admin123!");
-        values.put("bio", "");
-        values.put("void_cheque", "");
-        db.insert("Users", null, values);
+
+        String[] adminInfo = {"admin", "Admin", "User", "mealeradmin", "admin123!", "", ""};
+        String[] cook1Info = {"cook", "Ali", "Bhangu", "abhang@mealer.app", "cricketlover123", "I love to cook all the Pakistani food", ""};
+        String[] client1Info = {"client", "Aydin", "Bingos", "aydin@mealer.app", "kebablover123", "", ""};
+
+        String[][] users = { adminInfo, cook1Info, client1Info };
+
+        for (String[] user: users) {
+            ContentValues values = new ContentValues();
+            values.put("type", user[0]);
+            values.put("first_name", user[1]);
+            values.put("last_name", user[2]);
+            values.put("email", user[3]);
+            values.put("password", user[4]);
+            values.put("bio", user[5]);
+            values.put("void_cheque", user[6]);
+            db.insert(USER_TABLE_NAME, null, values);
+        }
 
         db.execSQL("CREATE TABLE " + ADDRESS_TABLE_NAME + " (" + "email VARCHAR NOT NULL," +
                 "address_1 VARCHAR NOT NULL," +
@@ -57,6 +68,32 @@ public class DBHelper extends SQLiteOpenHelper {
                 "cvv VARCHAR NOT NULL," +
                 "PRIMARY KEY (email))");
 
+        db.execSQL("CREATE TABLE " + SUSPENSION_TABLE_NAME + " (" + "email VARCHAR NOT NULL," +
+                "reason VARCHAR NOT NULL," +
+                "unsuspension_date DATE NOT NULL," + // Either date set by admin, or Dec 31, 9999 if indefinite.
+                "PRIMARY KEY (email))");
+
+        db.execSQL("CREATE TABLE " + COMPLAINT_TABLE_NAME + " (" + "cook_email VARCHAR NOT NULL," +
+                "client_email VARCHAR NOT NULL," +
+                "description VARCHAR NOT NULL," +
+                "is_resolved NUMBER(1) NOT NULL DEFAULT 0," +
+                "complaint_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "CONSTRAINT ck_testbool_isres CHECK (is_resolved IN (1,0)))");
+
+        String[] complaint1 = {"abhang@mealer.app" , "aydin@mealer.app", "Food arrived cold and soggy."};
+        String[] complaint2 = {"tomer@mealer.app" , "aydin@mealer.app", "Mixed dairy with meat products."};
+        String[] complaint3 = {"mustafa@mealer.app" , "aydin@mealer.app", "Used produce of subpar quality."};
+        String[] complaint4 = {"asif@mealer.app" , "aydin@mealer.app", "Did not make my cake 'soccer' themed."};
+
+        String[][] complaints = { complaint1, complaint2, complaint3, complaint4 };
+
+        for (String[] complaint: complaints) {
+            ContentValues values = new ContentValues();
+            values.put("cook_email", complaint[0]);
+            values.put("client_email", complaint[1]);
+            values.put("description", complaint[2]);
+            db.insert(COMPLAINT_TABLE_NAME, null, values);
+        }
 
     }
 
@@ -66,6 +103,9 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + ADDRESS_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + CREDIT_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + COMPLAINT_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + SUSPENSION_TABLE_NAME);
+
         onCreate(db);
     }
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {

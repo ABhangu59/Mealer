@@ -38,196 +38,180 @@ public class SignUp extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        final TextView signIn =(TextView)findViewById(R.id.txtSignIn);
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        final TextView signIn = findViewById(R.id.txtSignIn);
+        signIn.setOnClickListener(v -> finish());
 
-        final ImageView logo = (ImageView) findViewById(R.id.imgSignUpLogo);
+        final ImageView logo = findViewById(R.id.imgSignUpLogo);
         logo.setImageResource(R.drawable.mealer_logo);
 
-        final RadioGroup accountType = (RadioGroup) findViewById(R.id.accountSelection);
-        accountType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton choice = (RadioButton) findViewById(checkedId);
+        final RadioGroup accountType = findViewById(R.id.accountSelection);
+        accountType.setOnCheckedChangeListener((group, checkedId) -> {
+            RadioButton choice = findViewById(checkedId);
 
-                if (choice.equals(findViewById(R.id.radioClient))) {
-                    ViewGroup cookInfo = (ViewGroup) findViewById(R.id.cookInfo);
-                    cookInfo.setVisibility(View.GONE);
+            if (choice.equals(findViewById(R.id.radioClient))) {
+                ViewGroup cookInfo = findViewById(R.id.cookInfo);
+                cookInfo.setVisibility(View.GONE);
 
-                    ViewGroup clientInfo = (ViewGroup) findViewById(R.id.clientInfo);
-                    clientInfo.setVisibility(View.VISIBLE);
-                }
-                if (choice.equals(findViewById(R.id.radioCook))) {
-                    ViewGroup clientInfo = (ViewGroup) findViewById(R.id.clientInfo);
-                    clientInfo.setVisibility(View.GONE);
+                ViewGroup clientInfo = findViewById(R.id.clientInfo);
+                clientInfo.setVisibility(View.VISIBLE);
+            }
+            if (choice.equals(findViewById(R.id.radioCook))) {
+                ViewGroup clientInfo = findViewById(R.id.clientInfo);
+                clientInfo.setVisibility(View.GONE);
 
-                    ViewGroup cookInfo = (ViewGroup) findViewById(R.id.cookInfo);
-                    cookInfo.setVisibility(View.VISIBLE);
-                }
+                ViewGroup cookInfo = findViewById(R.id.cookInfo);
+                cookInfo.setVisibility(View.VISIBLE);
             }
         });
 
         SelectImage = findViewById(R.id.selectImage);
         PreviewImage = findViewById(R.id.previewImage);
 
-        SelectImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                imageChooser();
+        SelectImage.setOnClickListener(v -> imageChooser());
+
+
+        final Button signUp = findViewById(R.id.btnSignUp);
+        signUp.setOnClickListener(v -> {
+
+            Pattern emailPattern = Pattern.compile("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+            Pattern postalPattern = Pattern.compile("^([A-Za-z]\\d[A-Za-z][-]?\\d[A-Za-z]\\d)");
+
+            boolean valid = true;
+
+            EditText firstNameText = findViewById(R.id.txtFirstName);
+            String firstName = firstNameText.getText().toString().trim();
+            if (firstName.isEmpty()) valid = false;
+
+            EditText lastNameText = findViewById(R.id.txtLastName);
+            String lastName = lastNameText.getText().toString().trim();
+            if (lastName.isEmpty()) valid = false;
+
+            EditText emailText = findViewById(R.id.txtEmail);
+            String email = emailText.getText().toString().trim().toLowerCase(Locale.ROOT);
+            if (email.isEmpty() || !emailPattern.matcher(email).matches()) valid = false;
+
+            EditText passwordText = findViewById(R.id.txtPassword);
+            String password = passwordText.getText().toString().trim();
+            if (password.isEmpty()) valid = false;
+
+            EditText address1dText = findViewById(R.id.txtAddress1);
+            String address1 = address1dText.getText().toString().trim();
+            if (address1.isEmpty()) valid = false;
+
+            EditText address2dText = findViewById(R.id.txtAddress2);
+            String address2 = address2dText.getText().toString().trim();
+
+            EditText cityText = findViewById(R.id.txtCity);
+            String city = cityText.getText().toString().trim();
+            if (city.isEmpty()) valid = false;
+
+            Spinner provinceSpinner = findViewById(R.id.spnProvince);
+            String province = provinceSpinner.getSelectedItem().toString().trim();
+
+            EditText postalCodeText = findViewById(R.id.txtPostalCode);
+            String postalCode = postalCodeText.getText().toString().trim().toUpperCase(Locale.ROOT);
+            if (postalCode.isEmpty() || !postalPattern.matcher(postalCode).matches()) valid = false;
+
+            RadioGroup accountType1 = findViewById(R.id.accountSelection);
+
+            int choice = accountType1.getCheckedRadioButtonId();
+            String userType = "";
+
+            String creditCardNumber = null;
+            String creditCardMonth = null;
+            String creditCardYear = null;
+            String creditCardCVV = null;
+
+            if (choice == R.id.radioClient) {
+                userType = "client";
+                EditText creditCardNumberText = findViewById(R.id.txtCCNumber);
+                creditCardNumber = creditCardNumberText.getText().toString().trim();
+                if (creditCardNumber.length() != 16) valid = false;
+
+                Spinner monthSpinner = findViewById(R.id.spnMonth);
+                creditCardMonth = monthSpinner.getSelectedItem().toString().trim();
+
+                Spinner yearSpinner = findViewById(R.id.spnYear);
+                creditCardYear = yearSpinner.getSelectedItem().toString().trim();
+
+                EditText creditCardCVVText = findViewById(R.id.txtCVV);
+                creditCardCVV = creditCardCVVText.getText().toString().trim();
+                if (creditCardCVV.length() != 3) valid = false;
+
             }
-        });
 
+            String bio = null;
 
-        final Button signUp = (Button) findViewById(R.id.btnSignUp);
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            if (choice == R.id.radioCook) {
+                userType = "cook";
+                EditText bioText = findViewById(R.id.txtCookBio);
+                bio = bioText.getText().toString().trim();
+                if (bio.isEmpty()) valid = false;
 
-                Pattern emailPattern = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
-                Pattern postalPattern = Pattern.compile("^([A-Za-z]\\d[A-Za-z][-]?\\d[A-Za-z]\\d)");
+                ImageView preview = findViewById(R.id.previewImage);
+                Drawable img = preview.getDrawable();
 
-                boolean valid = true;
-
-                EditText firstNameText = (EditText) findViewById(R.id.txtFirstName);
-                String firstName = firstNameText.getText().toString().trim();
-                if (firstName.isEmpty()) valid = false;
-
-                EditText lastNameText = (EditText) findViewById(R.id.txtLastName);
-                String lastName = lastNameText.getText().toString().trim();
-                if (lastName.isEmpty()) valid = false;
-
-                EditText emailText = (EditText) findViewById(R.id.txtEmail);
-                String email = emailText.getText().toString().trim().toLowerCase(Locale.ROOT);
-                if (email.isEmpty() || !emailPattern.matcher(email).matches()) valid = false;
-
-                EditText passwordText = (EditText) findViewById(R.id.txtPassword);
-                String password = passwordText.getText().toString().trim();
-                if (password.isEmpty()) valid = false;
-
-                EditText address1dText = (EditText) findViewById(R.id.txtAddress1);
-                String address1 = address1dText.getText().toString().trim();
-                if (address1.isEmpty()) valid = false;
-
-                EditText address2dText = (EditText) findViewById(R.id.txtAddress2);
-                String address2 = address2dText.getText().toString().trim();
-
-                EditText cityText = (EditText) findViewById(R.id.txtCity);
-                String city = cityText.getText().toString().trim();
-                if (city.isEmpty()) valid = false;
-
-                Spinner provinceSpinner = (Spinner) findViewById(R.id.spnProvince);
-                String province = provinceSpinner.getSelectedItem().toString().trim();
-
-                EditText postalCodeText = (EditText) findViewById(R.id.txtPostalCode);
-                String postalCode = postalCodeText.getText().toString().trim().toUpperCase(Locale.ROOT);
-                if (postalCode.isEmpty() || !postalPattern.matcher(postalCode).matches()) valid = false;
-
-                RadioGroup accountType = (RadioGroup) findViewById(R.id.accountSelection);
-
-                int choice = accountType.getCheckedRadioButtonId();
-                String userType = "";
-
-                String creditCardNumber = null;
-                String creditCardMonth = null;
-                String creditCardYear = null;
-                String creditCardCVV = null;
-
-                if (choice == R.id.radioClient) {
-                    userType = "client";
-                    EditText creditCardNumberText = (EditText) findViewById(R.id.txtCCNumber);
-                    creditCardNumber = creditCardNumberText.getText().toString().trim();
-                    if (creditCardNumber.length() != 16) valid = false;
-
-                    Spinner monthSpinner = (Spinner) findViewById(R.id.spnMonth);
-                    creditCardMonth = monthSpinner.getSelectedItem().toString().trim();
-
-                    Spinner yearSpinner = (Spinner) findViewById(R.id.spnYear);
-                    creditCardYear = yearSpinner.getSelectedItem().toString().trim();
-
-                    EditText creditCardCVVText = (EditText) findViewById(R.id.txtCVV);
-                    creditCardCVV = creditCardCVVText.getText().toString().trim();
-                    if (creditCardCVV.length() != 3) valid = false;
-
-                }
-
-                String bio = null;
-
-                if (choice == R.id.radioCook) {
-                    userType = "cook";
-                    EditText bioText = (EditText) findViewById(R.id.txtCookBio);
-                    bio = bioText.getText().toString().trim();
-                    if (bio.isEmpty()) valid = false;
-
-                    ImageView preview = (ImageView) findViewById(R.id.previewImage);
-                    Drawable img = preview.getDrawable();
-
-                    if (img == null) valid = false;
-                    else {
-                        BitmapDrawable bitDw = ((BitmapDrawable) img);
-                        Bitmap bitmap = bitDw.getBitmap();
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                        byte[] imageInByte = stream.toByteArray();
-                    }
-                }
-
-                //TODO check if user already exists once database is set up
-
-                if (!valid)
-                    Toast.makeText(getApplicationContext(),
-                        "Please fill out all of the fields", Toast.LENGTH_LONG).show();
+                if (img == null) valid = false;
                 else {
-
-                    User user = null;
-                    Address address = new Address(address1, address2, city, province, postalCode);
-
-                    if (userType.equals("client")) {
-                        user = new Client(firstName, lastName, email, password, address,
-                                new CreditCard(firstName + " " + lastName, creditCardNumber, creditCardMonth, creditCardYear, creditCardCVV));
-                    } else if (userType.equals("cook")) {
-                        user = new Cook(firstName, lastName, email, password, address, bio, "");
-                    }
-
-                    SQLiteDatabase db = DBHelper.getWritableDatabase();
-
-                    ContentValues user_values = new ContentValues();
-                    user_values.put("type", userType);
-                    user_values.put("first_name", firstName);
-                    user_values.put("email", email);
-                    user_values.put("last_name", lastName);
-                    user_values.put("password", password);
-                    user_values.put("bio", bio);
-                    user_values.put("void_cheque", "");
-                    db.insert("Users", null, user_values);
-
-                    ContentValues address_values = new ContentValues();
-                    address_values.put("email", email);
-                    address_values.put("address_1", address1);
-                    address_values.put("address_2", address2);
-                    address_values.put("city", city);
-                    address_values.put("province", province);
-                    address_values.put("postal_code", postalCode);
-                    db.insert("Addresses", null, address_values);
-
-                    ContentValues credit_values = new ContentValues();
-                    credit_values.put("email", email);
-                    credit_values.put("full_name", firstName + " " + lastName);
-                    credit_values.put("number", creditCardNumber);
-                    credit_values.put("expiration_month", creditCardMonth);
-                    credit_values.put("expiration_year", creditCardYear);
-                    credit_values.put("cvv", creditCardCVV);
-                    db.insert("Credit", null, credit_values);
-
-
-                    Intent submitInfo = new Intent(getApplicationContext(),WelcomePage.class).putExtra("type", userType);
-                    startActivity(submitInfo);
-                    finish();
+                    BitmapDrawable bitDw = ((BitmapDrawable) img);
+                    Bitmap bitmap = bitDw.getBitmap();
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    byte[] imageInByte = stream.toByteArray();
                 }
+            }
+
+            //TODO check if user already exists once database is set up
+
+            if (!valid)
+                Toast.makeText(getApplicationContext(),
+                    "Please fill out all of the fields", Toast.LENGTH_LONG).show();
+            else {
+
+                User user = null;
+                Address address = new Address(address1, address2, city, province, postalCode);
+
+                if (userType.equals("client")) {
+                    user = new Client(firstName, lastName, email, password, address,
+                            new CreditCard(firstName + " " + lastName, creditCardNumber, creditCardMonth, creditCardYear, creditCardCVV));
+                } else if (userType.equals("cook")) {
+                    user = new Cook(firstName, lastName, email, password, address, bio, "");
+                }
+
+                SQLiteDatabase db = DBHelper.getWritableDatabase();
+
+                ContentValues user_values = new ContentValues();
+                user_values.put("type", userType);
+                user_values.put("first_name", firstName);
+                user_values.put("email", email);
+                user_values.put("last_name", lastName);
+                user_values.put("password", password);
+                user_values.put("bio", bio);
+                user_values.put("void_cheque", "");
+                db.insert(codes.aydin.mealer.DBHelper.USER_TABLE_NAME, null, user_values);
+
+                ContentValues address_values = new ContentValues();
+                address_values.put("email", email);
+                address_values.put("address_1", address1);
+                address_values.put("address_2", address2);
+                address_values.put("city", city);
+                address_values.put("province", province);
+                address_values.put("postal_code", postalCode);
+                db.insert(codes.aydin.mealer.DBHelper.ADDRESS_TABLE_NAME, null, address_values);
+
+                ContentValues credit_values = new ContentValues();
+                credit_values.put("email", email);
+                credit_values.put("full_name", firstName + " " + lastName);
+                credit_values.put("number", creditCardNumber);
+                credit_values.put("expiration_month", creditCardMonth);
+                credit_values.put("expiration_year", creditCardYear);
+                credit_values.put("cvv", creditCardCVV);
+                db.insert(codes.aydin.mealer.DBHelper.CREDIT_TABLE_NAME, null, credit_values);
+
+
+                Intent submitInfo = new Intent(getApplicationContext(),WelcomePage.class).putExtra("type", userType);
+                startActivity(submitInfo);
+                finish();
             }
         });
 

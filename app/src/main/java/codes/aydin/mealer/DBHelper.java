@@ -6,7 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
-public class DBHelper extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper
+{
 
     public static final String USER_TABLE_NAME = "users";
     public static final String ADDRESS_TABLE_NAME = "addresses";
@@ -22,7 +23,8 @@ public class DBHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db)
+    {
 
         db.execSQL("CREATE TABLE " + USER_TABLE_NAME + " (" + "type VARCHAR NOT NULL," +
                 "email VARCHAR NOT NULL," +

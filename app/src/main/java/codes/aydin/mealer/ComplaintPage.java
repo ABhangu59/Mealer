@@ -42,7 +42,7 @@ public class ComplaintPage extends AppCompatActivity {
         for (String[] row : rows) {
             Button complaintBtn = new Button(this);
             complaintBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            complaintBtn.setText(row[0]);
+            complaintBtn.setText("Complaint ID"+row[3]+ ":" + row[0]);
             complaintBtn.setId(View.generateViewId());
 
             complaintBtn.setOnClickListener(l -> {

@@ -1,7 +1,5 @@
 package codes.aydin.mealer;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,7 +9,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -64,9 +67,54 @@ public class MainActivity extends AppCompatActivity {
 
             if (row[0].equals(password)) {
 
-                Intent launchActivity;
+                Intent launchActivity = null;
                 if (row[1].equals("admin")) {
                     launchActivity = new Intent(getApplicationContext(), ComplaintPage.class);
+                } else if (row[1].equals("cook")){
+                    SQLiteDatabase db2 = DBHelper.getReadableDatabase();
+
+                    String[] projection2 = {"unsuspension_date"};
+
+                    String selection2 = "email = ?";
+                    String[] selectionArgs2 = {email};
+
+                    Cursor cursor2 = db2.query(codes.aydin.mealer.DBHelper.SUSPENSION_TABLE_NAME, projection2, selection2, selectionArgs2, null, null, null);
+
+                    List<String[]> rows2 = new ArrayList<>();
+                    while(cursor2.moveToNext()) {
+                        String[] row2 = {cursor2.getString(cursor2.getColumnIndexOrThrow("unsuspension_date"))};
+                        rows2.add(row2);
+                    }
+                    cursor2.close();
+
+                    if (rows2.size() != 0) {
+                        long millis = System.currentTimeMillis();
+                        java.sql.Date date = new java.sql.Date(millis);
+                        String today = date.toString();
+
+                        try {
+                            Date start = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA).parse(today);
+                            Date end = new SimpleDateFormat("yyyy/MM/dd", Locale.CANADA).parse(rows2.get(0)[0]);
+
+                            if (start.compareTo(end) > 0) {
+                                launchActivity = new Intent(getApplicationContext(), WelcomePage.class).putExtra("type", row[1]);
+                            } else {
+
+                                String timeframe = (rows2.get(0)[0].equals("9999/12/31")) ? "indefinitely." : ("until " + rows2.get(0)[0]);
+
+                                Toast.makeText(getApplicationContext(),
+                                        "You are currently suspended from Mealer " + timeframe, Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    } else launchActivity = new Intent(getApplicationContext(), WelcomePage.class).putExtra("type", row[1]);
+
+
                 } else {
                     launchActivity = new Intent(getApplicationContext(), WelcomePage.class).putExtra("type", row[1]);
                 }

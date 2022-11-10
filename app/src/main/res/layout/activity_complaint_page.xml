@@ -45,14 +45,21 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="488dp"
             android:padding="25dp">
 
             <LinearLayout
                 android:id="@+id/complaintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"/>
+                android:orientation="vertical" />
         </ScrollView>
+
+        <Button
+            android:id="@+id/btnComplaintLogOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="Log Out" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

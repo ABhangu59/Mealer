@@ -54,6 +54,12 @@ public class ComplaintPage extends AppCompatActivity {
             complaintLayout.addView(complaintBtn);
         }
 
+        Button logout = findViewById(R.id.btnComplaintLogOut);
+
+        logout.setOnClickListener(view -> {
+            finish();
+        });
+
 
     }
 }

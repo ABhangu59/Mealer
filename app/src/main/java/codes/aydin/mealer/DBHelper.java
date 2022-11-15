@@ -14,6 +14,7 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String CREDIT_TABLE_NAME = "credit_cards";
     public static final String COMPLAINT_TABLE_NAME = "complaints";
     public static final String SUSPENSION_TABLE_NAME = "suspensions";
+    public static final String MEAL_TABLE_NAME = "meals";
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Mealer.db";
@@ -95,6 +96,39 @@ public class DBHelper extends SQLiteOpenHelper
             values.put("client_email", complaint[1]);
             values.put("description", complaint[2]);
             db.insert(COMPLAINT_TABLE_NAME, null, values);
+        }
+
+        db.execSQL("CREATE TABLE " + MEAL_TABLE_NAME + " (" + "cook_email VARCHAR NOT NULL," +
+                "meal_name VARCHAR NOT NULL," +
+                "meal_type VARCHAR NOT NULL," +
+                "cuisine_type VARCHAR NOT NULL," +
+                "description VARCHAR NOT NULL," +
+                "allergens VARCHAR NOT NULL," +
+                "ingredients VARCHAR NOT NULL," +
+                "price DECIMAL(10, 2) NOT NULL," +
+                "currently_offered NUMBER(1) NOT NULL,"+
+                "meal_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "CONSTRAINT ck_testbool_isres CHECK (is_resolved IN (1,0)))");
+
+
+        String[] meal1 = {"abhang@mealer.app", "Butter Chicken", "Dinner", "Indian", "Only the freshest ingredients in this traditional dish", "Dairy", "Butter, Tomatoes, Chicken, Cream", "12.99", "1"};
+        String[] meal2 = {"abhang@mealer.app", "Dhal Chawl", "Dinner", "Indian", "Homemade Bliss", "Gluten", "Oil, Lentils, Rice", "11.99", "1"};
+        String[] meal3 = {"tomer@mealer.app", "Malabi", "Dessert", "Jewish", "An authentic dessert popular in Israel", "Dairy", "Milk, Cream, Rose Flavouring, Sugar", "9.99", "1"};
+        String[] meal4 = {"asif@mealer.app", "Mac & Cheese", "Lunch", "American", "Kraft Dinner, Nothing Special", "Dairy", "Butter, Cheese, Milk, Pasta", "7.99", "1"};
+
+        String[][] meals = {meal1, meal2, meal3, meal4};
+
+        for (String[] meal: meals) {
+            ContentValues values = new ContentValues();
+            values.put("cook_email", meal[0]);
+            values.put("meal_name", meal[1]);
+            values.put("meal_type", meal[2]);
+            values.put("cuisine_type", meal[3]);
+            values.put("description", meal[4]);
+            values.put("allergens", meal[5]);
+            values.put("ingredients", meal[6]);
+            values.put("price", meal[7]);
+            db.insert(MEAL_TABLE_NAME, null, values);
         }
 
     }

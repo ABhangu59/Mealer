@@ -42,4 +42,27 @@
         <item>Saskatchewan</item>
         <item>Yukon</item>
     </string-array>
+
+    <string-array name="MealTypes">
+        <item>Meal Type</item>
+        <item>Entree</item>
+        <item>Soup</item>
+        <item>Salad</item>
+        <item>Side</item>
+        <item>Dessert</item>
+    </string-array>
+
+    <string-array name="CuisineTypes">
+        <item>Cuisine Type</item>
+        <item>African</item>
+        <item>American</item>
+        <item>Latin</item>
+        <item>Chinese</item>
+        <item>Italian</item>
+        <item>Mediterranean</item>
+        <item>Indian</item>
+        <item>Caribbean</item>
+
+    </string-array>
+
 </resources>

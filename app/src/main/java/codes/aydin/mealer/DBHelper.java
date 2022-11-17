@@ -14,6 +14,7 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String CREDIT_TABLE_NAME = "credit_cards";
     public static final String COMPLAINT_TABLE_NAME = "complaints";
     public static final String SUSPENSION_TABLE_NAME = "suspensions";
+    public static final String MEAL_TABLE_NAME = "meals";
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Mealer.db";
@@ -97,6 +98,57 @@ public class DBHelper extends SQLiteOpenHelper
             db.insert(COMPLAINT_TABLE_NAME, null, values);
         }
 
+        db.execSQL("CREATE TABLE " + MEAL_TABLE_NAME + " (" + "cook_email VARCHAR NOT NULL," +
+                "meal_name VARCHAR NOT NULL," +
+                "meal_type VARCHAR NOT NULL," +
+                "cuisine_type INTEGER NOT NULL," +
+                "description VARCHAR NOT NULL," +
+                "allergens VARCHAR NOT NULL," +
+                "ingredients VARCHAR NOT NULL," +
+                "price DECIMAL(18, 2) NOT NULL," +
+                "currently_offered NUMBER(1) NOT NULL DEFAULT 0,"+
+                "meal_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "CONSTRAINT ck_testbool_isres CHECK (currently_offered IN (1,0)))");
+        /*
+        Meal Type:
+        0: Entree
+        1: Soup
+        2: Salad
+        3: Side
+        4: Dessert
+
+        CuisineType:
+        0: African
+        1: American
+        2: Latin
+        3: Chinese
+        4: Italian
+        5: Mediterranean
+        6: Caribbean
+        7: Indian
+         */
+
+        String[] meal1 = {"abhang@mealer.app", "Butter Chicken", "0", "7", "Only the freshest ingredients in this traditional dish", "Dairy", "Butter, Tomatoes, Chicken, Cream", "12.99", "1"};
+        String[] meal2 = {"abhang@mealer.app", "Dhal Chawl", "0", "7", "Homemade Bliss", "Gluten", "Oil, Lentils, Rice", "11.99", "1"};
+        String[] meal3 = {"tomer@mealer.app", "Malabi", "4", "2", "An authentic dessert popular in Israel", "Dairy", "Milk, Cream, Rose Flavouring, Sugar", "9.99", "1"};
+        String[] meal4 = {"asif@mealer.app", "Mac & Cheese", "3", "1", "Kraft Dinner, Nothing Special", "Dairy", "Butter, Cheese, Milk, Pasta", "7.99", "1"};
+
+        String[][] meals = {meal1, meal2, meal3, meal4};
+
+        for (String[] meal: meals) {
+            ContentValues values = new ContentValues();
+            values.put("cook_email", meal[0]);
+            values.put("meal_name", meal[1]);
+            values.put("meal_type", meal[2]);
+            values.put("cuisine_type", meal[3]);
+            values.put("description", meal[4]);
+            values.put("allergens", meal[5]);
+            values.put("ingredients", meal[6]);
+            values.put("price", meal[7]);
+            values.put("currently_offered", meal[8]);
+            db.insert(MEAL_TABLE_NAME, null, values);
+        }
+
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -107,6 +159,7 @@ public class DBHelper extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + CREDIT_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + COMPLAINT_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + SUSPENSION_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + MEAL_TABLE_NAME);
 
         onCreate(db);
     }

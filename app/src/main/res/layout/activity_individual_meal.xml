@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/txtEditTitle"
+            android:id="@+id/txtAddEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="25dp"
@@ -86,7 +86,7 @@
                 android:inputType="textMultiLine" />
 
             <EditText
-                android:id="@+id/txtMeallIngredients"
+                android:id="@+id/txtMealIngredients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -120,10 +120,19 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btnDeleteMeal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:text="Delete Meal" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
 
             <Button
                 android:id="@+id/btnCancelMeal"

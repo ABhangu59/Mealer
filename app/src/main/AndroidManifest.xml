@@ -29,13 +29,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity_cook_page"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".IndividualComplaint"
             android:exported="false">
             <meta-data
@@ -48,6 +41,7 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+
         </activity> <!-- Main Activity -->
         <activity
             android:name=".MainActivity"

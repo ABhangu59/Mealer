@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
 
-                    } else launchActivity = new Intent(getApplicationContext(), WelcomePage.class).putExtra("type", row[1]);
+                    } else launchActivity = new Intent(getApplicationContext(), CookPage.class).putExtra("cook_email", email);
 
 
                 } else {

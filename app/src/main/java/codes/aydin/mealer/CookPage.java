@@ -1,5 +1,5 @@
 package codes.aydin.mealer;
-import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,14 +48,14 @@ public class CookPage extends AppCompatActivity
 
         List<String[]> rows = new ArrayList<>();
         while(cursor.moveToNext()) {
-            String[] row = { cursor.getString(cursor.getColumnIndexOrThrow("cook_email")),
+            String[] row = {cursor.getString(cursor.getColumnIndexOrThrow("cook_email")),
                     cursor.getString(cursor.getColumnIndexOrThrow("meal_name")),
                     cursor.getString(cursor.getColumnIndexOrThrow("meal_type")),
                     cursor.getString(cursor.getColumnIndexOrThrow("cuisine_type")),
                     cursor.getString(cursor.getColumnIndexOrThrow("description")),
                     cursor.getString(cursor.getColumnIndexOrThrow("ingredients")),
                     cursor.getString(cursor.getColumnIndexOrThrow("allergens")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("price")), //Will be 0 or 1
+                    cursor.getString(cursor.getColumnIndexOrThrow("price")),
                     cursor.getString(cursor.getColumnIndexOrThrow("currently_offered")),
                     cursor.getString(cursor.getColumnIndexOrThrow("meal_id"))};
             rows.add(row);

@@ -1,7 +1,5 @@
 package codes.aydin.mealer;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,6 +12,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class IndividualMeal extends AppCompatActivity {
 
     @Override
@@ -21,15 +21,16 @@ public class IndividualMeal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_meal);
 
+
         DBHelper DBHelper = new DBHelper(getApplicationContext());
         SQLiteDatabase db = DBHelper.getWritableDatabase();
+
 
         String[] mealInfo = getIntent().getExtras().getStringArray("mealInfo");
         boolean addMeal = mealInfo.length == 1;
 
         TextView title = findViewById(R.id.txtAddEdit);
-        title.setText(((addMeal) ? "Add" : "Edit") + "Meal");
-
+        title.setText(((addMeal) ? "Add" : "Edit") + " Meal");
 
         EditText mealName = findViewById(R.id.txtMealName);
         mealName.setText((addMeal) ? "" : mealInfo[1]);
@@ -53,8 +54,7 @@ public class IndividualMeal extends AppCompatActivity {
         mealPrice.setText((addMeal) ? "" : mealInfo[7]);
 
         Switch currentlyOffered = findViewById(R.id.swtOffered);
-        currentlyOffered.setChecked(!addMeal && ((mealInfo[8]).equals("1")));
-
+        currentlyOffered.setChecked(!addMeal && (mealInfo[8].equals("1")));
         Button submit = findViewById(R.id.btnAddSave);
         submit.setText((addMeal) ? "Create Meal" : "Save Changes");
         submit.setOnClickListener(v -> {
@@ -100,18 +100,18 @@ public class IndividualMeal extends AppCompatActivity {
         if (addMeal) delete.setVisibility(View.GONE);
         delete.setOnClickListener(v ->
         {
-            if (mealInfo[8].equals("1"))
-            {
+            if (mealInfo[8].equals("1")) {
                 Toast.makeText(getApplicationContext(),
-                        "Cannot remove a meal that is currently offered.", Toast.LENGTH_LONG).show();
+                        "Cannot remove a meal that is currently offered. Save and try again.", Toast.LENGTH_LONG).show();
+            } else {
+
+                db.delete(codes.aydin.mealer.DBHelper.MEAL_TABLE_NAME, "meal_id = ?", new String[]{mealInfo[9]});
+
+                Intent launchActivity = new Intent(getApplicationContext(), CookPage.class).putExtra("cook_email", mealInfo[0]);
+
+                startActivity(launchActivity);
+                finish();
             }
-
-            db.delete(codes.aydin.mealer.DBHelper.MEAL_TABLE_NAME, "meal_id = ?", new String[]{mealInfo[9]});
-
-            Intent launchActivity = new Intent(getApplicationContext(), CookPage.class).putExtra("cook_email", mealInfo[0]);
-
-            startActivity(launchActivity);
-            finish();
         });
 
     }

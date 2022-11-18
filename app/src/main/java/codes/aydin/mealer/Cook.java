@@ -81,5 +81,6 @@ public class Cook extends User {
 	public void setSuspended(boolean isSuspended) {
 		this.isSuspended = isSuspended;
 	}
+	public boolean getSuspended() {return isSuspended;}
 	
 }

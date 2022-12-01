@@ -19,6 +19,7 @@ public class UnitTests {
     Dish d1 = new Dish("Macaroni and Cheese", "Dinner", "American", "Macaroni, Cheese", "Dairy", "Super yummy", 7.99);
     Dish d2 = new Dish("Cheeseburger", "Lunch", "American", "Bread, Cheese, Beef", "Dairy, Gluten", "Better than Burger King", 2.99);
     Dish d3 = new Dish("Lettuce", "Snack", "Natural", "Lettuce", "", "Green", 99.99);
+    Dish d4 = new Dish("Lasagna", "Dinner", "Italian", "Tomato Sauce, Cheese, Beef, Pasta", "Dairy, Gluten", "Has layers", 1111.04);
     Order o = new Order(c, d1, 123);
 
     Admin admin = new Admin("Tomer", "Szulsztein", a);
@@ -28,23 +29,29 @@ public class UnitTests {
     Review review = new Review(3, "very yummy", c);
 
     @Test
-    public void orderGetMeal_isFuntional() {assertEquals(o.getMeal(), d1);}
+    public void orderGetMeal_isFuntional() {assertEquals(d1,o.getMeal());}
 
     @Test
-    public void dishGetName_isFunctional() {assertEquals(d1.getMealName(), "Macaroni and Cheese");}
+    public void dishGetName_isFunctional() {assertEquals("Macaroni and Cheese",d1.getMealName());}
 
     @Test
-    public void clientGetPassword_isFunctional() {assertEquals(c.getPassword(), "password");}
+    public void dishSetPrice_isFunctional() {d4.setPrice(16); assertEquals(16,d4.getPrice(), 0); }
 
     @Test
-    public void creditCardGetName_isFunctional() {assertEquals(cc.getNameOnCard(), "Tomer Szulsztein");}
+    public void dishSetMealType_isFunctional() {d4.setMealType("Edible"); assertEquals("Edible",d4.getMealType()); }
+
+    @Test
+    public void clientGetPassword_isFunctional() {assertEquals("password",c.getPassword());}
+
+    @Test
+    public void creditCardGetName_isFunctional() {assertEquals("Tomer Szulsztein",cc.getNameOnCard());}
 
     @Test
     public void addSingleDishToCook_isFunctional() {
         cook1.addDish(d1);
         ArrayList<Dish> menu = new ArrayList<Dish>();
         menu.add(d1);
-        assertEquals(cook1.getMenu(),menu);
+        assertEquals(menu,cook1.getMenu());
     }
 
     @Test
@@ -57,7 +64,7 @@ public class UnitTests {
         ArrayList<Dish> menu = new ArrayList<Dish>();
         menu.add(d2);
         menu.add(d3);
-        assertEquals(cook2.getMenu(),menu);
+        assertEquals(menu,cook2.getMenu());
     }
 
     @Test
@@ -65,7 +72,13 @@ public class UnitTests {
 
     @Test
     public void reviewGetRating_isFunctional() {
-        assertEquals(review.getRating(),3);
+        assertEquals(3,review.getRating());
     }
-    //test
+
+    @Test
+    public void reviewGetClient_isFunctional() { assertEquals(c,review.getClient());}
+
+    @Test
+    public void reviewGetReview_isFunctional() { assertEquals("very yummy", review.getReview());}
+
 }

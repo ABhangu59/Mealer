@@ -24,6 +24,7 @@ public class CookPage extends AppCompatActivity
 
         findViewById(R.id.btnCookLogout).setOnClickListener(view -> finish());
 
+        // Get cook email passed thru to page
         String cookEmail = getIntent().getExtras().getString("cook_email");
 
         findViewById(R.id.btnAddMeal).setOnClickListener(view -> {
@@ -31,8 +32,6 @@ public class CookPage extends AppCompatActivity
             startActivity(launchActivity);
             finish();
         });
-
-
 
         LinearLayout menuLayout = findViewById(R.id.menuLayout);
 
@@ -63,6 +62,7 @@ public class CookPage extends AppCompatActivity
         cursor.close();
 
 
+        // For meal in meals by cook, build a button and add it to the scroll view.
         for (String[] row : rows) {
             Button complaintBtn = new Button(this);
             complaintBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));

@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
             SQLiteDatabase db = DBHelper.getReadableDatabase();
 
-            String[] projection = {"email", "password", "type"};
+            String[] projection = {"email", "password", "type", "first_name"};
 
             String selection = "email = ?";
             String[] selectionArgs = {email};
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
             List<String[]> rows = new ArrayList<>();
             while(cursor.moveToNext()) {
-                String[] row = {cursor.getString(cursor.getColumnIndexOrThrow("password")), cursor.getString(cursor.getColumnIndexOrThrow("type"))};
+                String[] row = {cursor.getString(cursor.getColumnIndexOrThrow("password")), cursor.getString(cursor.getColumnIndexOrThrow("type")), cursor.getString(cursor.getColumnIndexOrThrow("first_name"))};
                 rows.add(row);
             }
             cursor.close();
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 } else {
-                    launchActivity = new Intent(getApplicationContext(), WelcomePage.class).putExtra("type", row[1]);
+                    launchActivity = new Intent(getApplicationContext(), UserScreen.class).putExtra("userinfo", new String[]{email, row[2]});
                 }
                 startActivity(launchActivity);
             } else {

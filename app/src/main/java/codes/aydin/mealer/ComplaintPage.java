@@ -15,6 +15,7 @@ import java.util.List;
 
 public class ComplaintPage extends AppCompatActivity {
 
+    //creating page
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,16 +23,20 @@ public class ComplaintPage extends AppCompatActivity {
 
         LinearLayout complaintLayout = findViewById(R.id.complaintLayout);
 
+        //for accessing database
         DBHelper DBHelper = new DBHelper(getApplicationContext());
 
         SQLiteDatabase db = DBHelper.getReadableDatabase();
 
+        //for database query
         String[] projection = {"cook_email", "client_email", "description", "complaint_id"};
         String selection = "is_resolved = ?";
         String[] selectionArgs = {"0"};
 
+        //database query
         Cursor cursor = db.query(codes.aydin.mealer.DBHelper.COMPLAINT_TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
+        //make arraylist of complaints
         List<String[]> rows = new ArrayList<>();
         while(cursor.moveToNext()) {
             String[] row = { cursor.getString(cursor.getColumnIndexOrThrow("cook_email")), cursor.getString(cursor.getColumnIndexOrThrow("client_email")), cursor.getString(cursor.getColumnIndexOrThrow("description")), cursor.getString(cursor.getColumnIndexOrThrow("complaint_id"))};
@@ -39,12 +44,15 @@ public class ComplaintPage extends AppCompatActivity {
         }
         cursor.close();
 
+        //output all complaints as buttons
         for (String[] row : rows) {
             Button complaintBtn = new Button(this);
             complaintBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             complaintBtn.setText("Complaint ID"+row[3]+ ":" + row[0]);
             complaintBtn.setId(View.generateViewId());
 
+
+            //activity when button is pressed
             complaintBtn.setOnClickListener(l -> {
                 Intent launchActivity = new Intent(getApplicationContext(), IndividualComplaint.class).putExtra("complaintInfo", row);
                 startActivity(launchActivity);
@@ -54,6 +62,7 @@ public class ComplaintPage extends AppCompatActivity {
             complaintLayout.addView(complaintBtn);
         }
 
+        //logout buttobn
         Button logout = findViewById(R.id.btnComplaintLogOut);
 
         logout.setOnClickListener(view -> {

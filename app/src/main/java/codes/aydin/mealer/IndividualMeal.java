@@ -26,10 +26,13 @@ public class IndividualMeal extends AppCompatActivity {
         SQLiteDatabase db = DBHelper.getWritableDatabase();
 
 
+        // If something is passed thru to the page, it is an Add meal page, else it is edit
         String[] mealInfo = getIntent().getExtras().getStringArray("mealInfo");
         boolean addMeal = mealInfo.length == 1;
 
         TextView title = findViewById(R.id.txtAddEdit);
+
+        // ternary operators to set values if it is a Edit meal
         title.setText(((addMeal) ? "Add" : "Edit") + " Meal");
 
         EditText mealName = findViewById(R.id.txtMealName);
@@ -97,7 +100,10 @@ public class IndividualMeal extends AppCompatActivity {
 
         Button delete = findViewById(R.id.btnDeleteMeal);
 
+        // Hides delete button if it is an Add meal
         if (addMeal) delete.setVisibility(View.GONE);
+
+        // Removes the meal
         delete.setOnClickListener(v ->
         {
             if (mealInfo[8].equals("1")) {

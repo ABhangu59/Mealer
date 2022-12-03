@@ -208,8 +208,11 @@ public class SignUp extends Activity {
                 credit_values.put("cvv", creditCardCVV);
                 db.insert(codes.aydin.mealer.DBHelper.CREDIT_TABLE_NAME, null, credit_values);
 
-
-                Intent submitInfo = new Intent(getApplicationContext(),WelcomePage.class).putExtra("type", userType);
+                Intent submitInfo = null;
+                if (userType.equals("client"))
+                    submitInfo = new Intent(getApplicationContext(),UserScreen.class).putExtra("userinfo", new String[]{email, firstName});
+                else if (userType.equals("cook"))
+                    submitInfo = new Intent(getApplicationContext(),CookPage.class).putExtra("cook_email", email);
                 startActivity(submitInfo);
                 finish();
             }

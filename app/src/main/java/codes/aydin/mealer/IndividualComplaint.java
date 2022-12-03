@@ -20,15 +20,18 @@ public class IndividualComplaint extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_individual_complaint);
 
+        //for accessing database
         DBHelper DBHelper = new DBHelper(getApplicationContext());
         SQLiteDatabase db = DBHelper.getWritableDatabase();
 
+        //back button create
         findViewById(R.id.btnBack).setOnClickListener(view -> {
             Intent launchActivity = new Intent(getApplicationContext(), ComplaintPage.class);
             startActivity(launchActivity);
             finish();
         });
 
+        // Get complaint info from intent extras
         String[] complaint = getIntent().getExtras().getStringArray("complaintInfo");
 
         TextView cookEmail = findViewById(R.id.txtCookEmail);
@@ -40,6 +43,7 @@ public class IndividualComplaint extends AppCompatActivity {
         TextView description = findViewById(R.id.txtDescription);
         description.setText(complaint[2]);
 
+        // Dismiss complaint
         findViewById(R.id.btnDismiss).setOnClickListener(view -> {
             ContentValues cv = new ContentValues();
             cv.put("is_resolved", 1);
@@ -51,6 +55,7 @@ public class IndividualComplaint extends AppCompatActivity {
             finish();
         });
 
+        //Suspend cook
         findViewById(R.id.btnSuspend).setOnClickListener(view -> {
             Pattern datePattern = Pattern.compile("([12]\\d{3}\\/(0[1-9]|1[0-2])\\/(0[1-9]|[12]\\d|3[01]))");
 

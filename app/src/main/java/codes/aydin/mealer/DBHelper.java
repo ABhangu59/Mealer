@@ -15,6 +15,7 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String COMPLAINT_TABLE_NAME = "complaints";
     public static final String SUSPENSION_TABLE_NAME = "suspensions";
     public static final String MEAL_TABLE_NAME = "meals";
+    public static final String ORDER_TABLE_NAME = "orders";
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Mealer.db";
@@ -98,7 +99,8 @@ public class DBHelper extends SQLiteOpenHelper
             db.insert(COMPLAINT_TABLE_NAME, null, values);
         }
 
-        db.execSQL("CREATE TABLE " + MEAL_TABLE_NAME + " (" + "cook_email VARCHAR NOT NULL," +
+        db.execSQL("CREATE TABLE " + MEAL_TABLE_NAME + " (" +
+                "cook_email VARCHAR NOT NULL," +
                 "meal_name VARCHAR NOT NULL," +
                 "meal_type VARCHAR NOT NULL," +
                 "cuisine_type INTEGER NOT NULL," +
@@ -149,6 +151,54 @@ public class DBHelper extends SQLiteOpenHelper
             db.insert(MEAL_TABLE_NAME, null, values);
         }
 
+        // TODO make orders table
+        /**
+         * cook_email
+         * cook_first_name
+         * cook_last_name
+         * user_email
+         * order_id AUTOINCREMENT
+         * order_date_time
+         * status (int?)
+         * meal_name
+         * meal_price
+         */
+
+
+        db.execSQL("CREATE TABLE " + ORDER_TABLE_NAME + " (" +
+                "cook_email VARCHAR NOT NULL," +
+                "cook_first_name VARCHAR NOT NULL," +
+                "cook_last_name VARCHAR NOT NULL," +
+                "user_email VARCHAR NOT NULL," +
+                "order_date_time DATETIME NOT NULL, " +
+                "delivery_date_time DATETIME NOT NULL," +
+                "status INTEGER NOT NULL DEFAULT 0," + //0 = Order placed, 1 = Order confirmed, 2 = Order delivered
+                "meal_name VARCHAR NOT NULL," +
+                "meal_price DECIMAL(18, 2) NOT NULL," +
+                "meal_rating DECIMAL(18, 2)," +
+                "order_id INTEGER PRIMARY KEY AUTOINCREMENT)");
+
+        String[] order1 = {"ali@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Butter Chicken", "14.99"};
+        String[] order2 = {"ali@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Shai Paneer", "13.99"};
+        String[] order3 = {"ali@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Gulab Jamun", "7.99"};
+        String[] order4 = {"ali@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Naan", "4.99"};
+
+        String[][] orders = {order1, order2, order3, order4};
+
+        for (String[] order : orders) {
+
+            ContentValues values = new ContentValues();
+            values.put("cook_email", order[0]);
+            values.put("cook_first_name", order[1]);
+            values.put("cook_last_name", order[2]);
+            values.put("user_email", order[3]);
+            values.put("order_date_time", order[4]);
+            values.put("delivery_date_time", order[5]);
+            values.put("meal_name", order[6]);
+            values.put("meal_price", order[7]);
+            db.insert(ORDER_TABLE_NAME, null, values);
+
+        }
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -160,6 +210,7 @@ public class DBHelper extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + COMPLAINT_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + SUSPENSION_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MEAL_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ORDER_TABLE_NAME);
 
         onCreate(db);
     }

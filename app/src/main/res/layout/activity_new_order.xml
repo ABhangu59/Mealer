@@ -1,9 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".NewOrderSearch">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="25dp">
+
+        <Button
+            android:id="@+id/btnBackSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="back" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="25dp" />
+
+        <TextView
+            android:id="@+id/txtSearchTitle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="New Search"
+            android:textColor="@color/black"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="What are you looking to eat?" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/txtSearchInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Meal Name"
+                    android:inputType="textPersonName" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Meal Type"
+                    android:textSize="24sp" />
+
+                <CheckBox
+                    android:id="@+id/chkEntree"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Entree" />
+
+                <CheckBox
+                    android:id="@+id/chkSalad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Salad" />
+
+                <CheckBox
+                    android:id="@+id/chkSide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Side" />
+
+                <CheckBox
+                    android:id="@+id/chkSoup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Soup" />
+
+                <CheckBox
+                    android:id="@+id/chkDessert"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Dessert" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp" />
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cuisine Type"
+                    android:textSize="24sp" />
+
+                <CheckBox
+                    android:id="@+id/chkAfrican"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="African" />
+
+                <CheckBox
+                    android:id="@+id/chkAmerican"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="American" />
+
+                <CheckBox
+                    android:id="@+id/chkLatin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Latin" />
+
+                <CheckBox
+                    android:id="@+id/chkChinese"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Chinese" />
+
+                <CheckBox
+                    android:id="@+id/chkItalian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Italian" />
+
+                <CheckBox
+                    android:id="@+id/chkMediterranean"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mediterranean" />
+
+                <CheckBox
+                    android:id="@+id/chkIndian"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Indian" />
+
+                <CheckBox
+                    android:id="@+id/chkCarribean"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Caribbean" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp" />
+
+                <Button
+                    android:id="@+id/btnSubmitSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Find your meal" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

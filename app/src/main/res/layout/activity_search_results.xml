@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserOrders">
+    android:textAlignment="center"
+    tools:context=".SearchResults">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,35 +13,42 @@
         android:padding="25dp">
 
         <Button
-            android:id="@+id/btnBackOrders"
+            android:id="@+id/btnBackSearchResults"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back" />
+            android:text="BACK" />
+
+        <TextView
+            android:id="@+id/txtOrdersTitle2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Your Choices"
+            android:textColor="@color/black"
+            android:textSize="34sp"
+            android:textStyle="bold" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="25dp" />
-
-        <TextView
-            android:id="@+id/txtOrdersTitle"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginBottom="15dp"
-            android:text="Your Orders"
-            android:textColor="@color/black"
-            android:textSize="34sp"
-            android:textStyle="bold" />
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/lytOrderScroll"
+                android:id="@+id/lytMealChoices"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
-        </ScrollView>
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/txtNoResultsFound"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="No results found. Try to broaden your search!"
+                    android:textAlignment="center" />
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

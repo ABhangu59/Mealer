@@ -108,7 +108,9 @@ public class DBHelper extends SQLiteOpenHelper
                 "allergens VARCHAR NOT NULL," +
                 "ingredients VARCHAR NOT NULL," +
                 "price DECIMAL(18, 2) NOT NULL," +
-                "currently_offered NUMBER(1) NOT NULL DEFAULT 0,"+
+                "meal_num_ratings INTEGER NOT NULL DEFAULT 0," +
+                "meal_sum_ratings DECIMAL(18, 2) NOT NULL DEFAULT 0.0," +
+                "currently_offered NUMBER(1) NOT NULL DEFAULT 0," +
                 "meal_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "CONSTRAINT ck_testbool_isres CHECK (currently_offered IN (1,0)))");
         /*
@@ -182,8 +184,9 @@ public class DBHelper extends SQLiteOpenHelper
         String[] order2 = {"ali@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Shai Paneer", "13.99"};
         String[] order3 = {"ali@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Gulab Jamun", "7.99"};
         String[] order4 = {"ali@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Naan", "4.99"};
+        String[] order5 = {"ali@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Mango Lassi", "4.99"};
 
-        String[][] orders = {order1, order2, order3, order4};
+        String[][] orders = {order1, order2, order3, order4, order5};
 
         for (String[] order : orders) {
 

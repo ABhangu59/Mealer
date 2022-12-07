@@ -1,5 +1,8 @@
 package codes.aydin.mealer;
 
+import android.app.AlertDialog;
+import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
@@ -8,9 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +28,7 @@ public class SearchResults extends AppCompatActivity {
 
         String[] intentInfo = getIntent().getExtras().getStringArray("searchInfo");
         String mealTypes = intentInfo[0], cuisineTypes = intentInfo[1], input = intentInfo[2];
-//        String mealTypes = " ", cuisineTypes = " ", input = " ";
+        String userEmail = getIntent().getExtras().getString("user_email");
 
         findViewById(R.id.btnBackSearchResults).setOnClickListener(view -> finish());
 
@@ -93,7 +98,7 @@ public class SearchResults extends AppCompatActivity {
 
 
             TextView mealCuisine = new TextView(this);
-            mealCuisine.setText(cuisines[Integer.parseInt(row[7])] + " " + meals[Integer.parseInt(row[6])] + " |  $" + row[7]);
+            mealCuisine.setText(cuisines[Integer.parseInt(row[7])] + " " + meals[Integer.parseInt(row[6])] + "  |  $" + row[5]);
             meal.addView(mealCuisine);
 
 
@@ -117,8 +122,63 @@ public class SearchResults extends AppCompatActivity {
             allergens.setText("Allergens: " + row[3]);
             meal.addView(allergens);
 
-//            meal.setOnClickListener(view -> finish());
 
+            meal.setClickable(true);
+            meal.setOnClickListener(view -> {
+                AlertDialog.Builder confirm = new AlertDialog.Builder(this);
+                confirm.setMessage("Would you like to place an order for " + row[0] + " for $" + row[5])
+                        .setPositiveButton("Confirm", (dialogInterface, i) -> {
+
+                            final Calendar c = Calendar.getInstance();
+                            int hourNow = c.get(Calendar.HOUR_OF_DAY);
+                            int minuteNow = c.get(Calendar.MINUTE);
+
+                            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                                    (TimePickerDialog.OnTimeSetListener) (view1, hourOfDay, minute) -> {
+
+                                        AlertDialog.Builder thanks = new AlertDialog.Builder(this);
+
+                                        Calendar cal = Calendar.getInstance();
+                                        cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                        cal.set(Calendar.MINUTE, minute);
+                                        cal.set(Calendar.SECOND, 0);
+                                        cal.set(Calendar.MILLISECOND, 0);
+
+                                        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                                        // TODO get first, last name from user db
+                                        String[] projection = {"first_name", "last_name"};
+                                        String selection = "email = ?";
+                                        String[] selectionArgs = {row[1]};
+
+                                        Cursor cursor2 = db.query(codes.aydin.mealer.DBHelper.USER_TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+                                        String firstName = "", lastName = "";
+                                        while (cursor2.moveToNext()) {
+                                            firstName = cursor2.getString(cursor2.getColumnIndexOrThrow("first_name"));
+                                            lastName = cursor2.getString(cursor2.getColumnIndexOrThrow("last_name"));
+                                        }
+
+                                        ContentValues cv = new ContentValues();
+                                        cv.put("cook_email", row[1]);
+                                        cv.put("cook_first_name", firstName);
+                                        cv.put("cook_last_name", lastName);
+                                        cv.put("user_email", userEmail);
+                                        cv.put("order_date_time", f.format(new Date()));
+                                        cv.put("delivery_date_time", f.format(cal.getTime()));
+                                        cv.put("meal_name", row[0]);
+                                        cv.put("meal_price", row[5]);
+
+                                        db.insert(codes.aydin.mealer.DBHelper.ORDER_TABLE_NAME, null, cv);
+
+                                        thanks.setMessage("Your order has been placed and is scheduled for "
+                                                + hourOfDay + ":" + minute + ". Check Your Orders page to view the status of your order.");
+                                        thanks.show();
+                                    }, hourNow, minuteNow, false);
+                            timePickerDialog.show();
+
+                        }).setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss()).create();
+                confirm.show();
+            });
             mealScroll.addView(meal);
         }
     }

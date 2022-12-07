@@ -10,5 +10,7 @@
     <color name="green">#6BA135</color>
     <color name="orange">#FEA853</color>
     <color name="light_grey">#f4f4f4</color>
+    <color name="light_green">#c9ffd6</color>
+    <color name="light_red">#ffadac</color>
 
 </resources>

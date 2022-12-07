@@ -97,7 +97,8 @@ public class MainActivity extends AppCompatActivity {
                             Date end = new SimpleDateFormat("yyyy/MM/dd", Locale.CANADA).parse(rows2.get(0)[0]);
 
                             if (start.compareTo(end) > 0) {
-                                launchActivity = new Intent(getApplicationContext(), WelcomePage.class).putExtra("type", row[1]);
+                                launchActivity = new Intent(getApplicationContext(), CookPage.class).putExtra("userinfo", new String[]{email, row[2]});
+
                             } else {
 
                                 String timeframe = (rows2.get(0)[0].equals("9999/12/31")) ? "indefinitely." : ("until " + rows2.get(0)[0]);
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
 
-                    } else launchActivity = new Intent(getApplicationContext(), CookPage.class).putExtra("cook_email", email);
+                    } launchActivity = new Intent(getApplicationContext(), CookPage.class).putExtra("userinfo", new String[]{email, row[2]});
 
 
                 } else {

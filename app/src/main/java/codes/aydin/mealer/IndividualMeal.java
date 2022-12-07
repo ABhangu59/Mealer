@@ -84,7 +84,7 @@ public class IndividualMeal extends AppCompatActivity {
                 if (addMeal) db.insert(codes.aydin.mealer.DBHelper.MEAL_TABLE_NAME, null, cv);
                 else {db.update(codes.aydin.mealer.DBHelper.MEAL_TABLE_NAME, cv, "meal_id = ?", new String[]{mealInfo[9]});}
 
-                Intent launchActivity = new Intent(getApplicationContext(), CookPage.class).putExtra("cook_email", mealInfo[0]);
+                Intent launchActivity = new Intent(getApplicationContext(), MenuPage.class).putExtra("cook_email", mealInfo[0]);
                 startActivity(launchActivity);
                 finish();
             }
@@ -92,7 +92,7 @@ public class IndividualMeal extends AppCompatActivity {
 
         Button cancel = findViewById(R.id.btnCancelMeal);
         cancel.setOnClickListener(v -> {
-            Intent launchActivity = new Intent(getApplicationContext(), CookPage.class).putExtra("cook_email", mealInfo[0]);
+            Intent launchActivity = new Intent(getApplicationContext(), MenuPage.class).putExtra("cook_email", mealInfo[0]);
 
             startActivity(launchActivity);
             finish();
@@ -113,7 +113,7 @@ public class IndividualMeal extends AppCompatActivity {
 
                 db.delete(codes.aydin.mealer.DBHelper.MEAL_TABLE_NAME, "meal_id = ?", new String[]{mealInfo[9]});
 
-                Intent launchActivity = new Intent(getApplicationContext(), CookPage.class).putExtra("cook_email", mealInfo[0]);
+                Intent launchActivity = new Intent(getApplicationContext(), MenuPage.class).putExtra("cook_email", mealInfo[0]);
 
                 startActivity(launchActivity);
                 finish();

@@ -61,6 +61,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Your Orders" />
+
+            <Button
+                android:id="@+id/btnFileComplaint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="File a Complaint" />
         </LinearLayout>
 
         <Button

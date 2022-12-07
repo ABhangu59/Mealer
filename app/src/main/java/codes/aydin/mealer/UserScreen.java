@@ -35,5 +35,11 @@ public class UserScreen extends AppCompatActivity {
                     .putExtra("email", userEmail);
             startActivity(launchActivity);
         });
+
+        findViewById(R.id.btnFileComplaint).setOnClickListener(view -> {
+            Intent launchActivity = new Intent(getApplicationContext(), FileComplaint.class)
+                    .putExtra("email", userEmail);
+            startActivity(launchActivity);
+        });
     }
 }

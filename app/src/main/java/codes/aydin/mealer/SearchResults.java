@@ -11,12 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchResults extends AppCompatActivity {
@@ -27,8 +28,9 @@ public class SearchResults extends AppCompatActivity {
         setContentView(R.layout.activity_search_results);
 
         String[] intentInfo = getIntent().getExtras().getStringArray("searchInfo");
-        String mealTypes = intentInfo[0], cuisineTypes = intentInfo[1], input = intentInfo[2];
         String userEmail = getIntent().getExtras().getString("user_email");
+        String mealTypes = intentInfo[0], cuisineTypes = intentInfo[1], input = intentInfo[2];
+//        String mealTypes = " ", cuisineTypes = " ", input = " ";
 
         findViewById(R.id.btnBackSearchResults).setOnClickListener(view -> finish());
 
@@ -106,8 +108,20 @@ public class SearchResults extends AppCompatActivity {
             description.setText(row[2]);
             meal.addView(description);
 
+            String[] projection2 = {"rating_num", "rating_sum"};
+            String selection2 = "cook_email = ?";
+            String[] selectionArgs2 = {row[1]};
+
+            Cursor cursor2 = db.query(codes.aydin.mealer.DBHelper.RATING_TABLE_NAME, projection2, selection2, selectionArgs2, null, null, null);
+            List<String[]> rows2 = new ArrayList<>();
+            while (cursor2.moveToNext()) {
+                rows2.add(new String[]{cursor2.getString(cursor2.getColumnIndexOrThrow("rating_num")),
+                        cursor2.getString(cursor2.getColumnIndexOrThrow("rating_sum"))});
+            }
+            cursor2.close();
+
             TextView rating = new TextView(this);
-            rating.setText((Integer.parseInt(row[8]) == 0) ? "No ratings" : ((Double.parseDouble(row[9]) / Double.parseDouble(row[8])) + "/5 stars"));
+            rating.setText((rows2.size() == 0) ? "No ratings" : ((Double.parseDouble(rows2.get(0)[1]) / Double.parseDouble(rows2.get(0)[0])) + "/5 stars"));
             meal.addView(rating);
 
             TextView empty = new TextView(this);
@@ -121,7 +135,6 @@ public class SearchResults extends AppCompatActivity {
             TextView allergens = new TextView(this);
             allergens.setText("Allergens: " + row[3]);
             meal.addView(allergens);
-
 
             meal.setClickable(true);
             meal.setOnClickListener(view -> {
@@ -146,16 +159,15 @@ public class SearchResults extends AppCompatActivity {
 
                                         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-                                        // TODO get first, last name from user db
                                         String[] projection = {"first_name", "last_name"};
                                         String selection = "email = ?";
                                         String[] selectionArgs = {row[1]};
 
-                                        Cursor cursor2 = db.query(codes.aydin.mealer.DBHelper.USER_TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+                                        Cursor cursor3 = db.query(codes.aydin.mealer.DBHelper.USER_TABLE_NAME, projection, selection, selectionArgs, null, null, null);
                                         String firstName = "", lastName = "";
-                                        while (cursor2.moveToNext()) {
-                                            firstName = cursor2.getString(cursor2.getColumnIndexOrThrow("first_name"));
-                                            lastName = cursor2.getString(cursor2.getColumnIndexOrThrow("last_name"));
+                                        while (cursor3.moveToNext()) {
+                                            firstName = cursor3.getString(cursor3.getColumnIndexOrThrow("first_name"));
+                                            lastName = cursor3.getString(cursor3.getColumnIndexOrThrow("last_name"));
                                         }
 
                                         ContentValues cv = new ContentValues();
@@ -179,6 +191,7 @@ public class SearchResults extends AppCompatActivity {
                         }).setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss()).create();
                 confirm.show();
             });
+
             mealScroll.addView(meal);
         }
     }

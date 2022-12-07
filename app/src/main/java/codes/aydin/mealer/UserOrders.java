@@ -125,6 +125,41 @@ public class UserOrders extends AppCompatActivity {
                             cv.put("meal_rating", String.valueOf(rating));
 
                             db.update(codes.aydin.mealer.DBHelper.ORDER_TABLE_NAME, cv, "order_id = ?", new String[]{row[9]});
+
+                            String[] projection2 = {"rating_num", "rating_sum"};
+                            String selection2 = "cook_email = ?";
+                            String[] selectionArgs2 = {row[0]};
+
+                            Cursor cursor2 = db.query(codes.aydin.mealer.DBHelper.RATING_TABLE_NAME, projection2, selection2, selectionArgs2, null, null, null);
+                            List<String[]> rows2 = new ArrayList<>();
+                            while (cursor2.moveToNext()) {
+                                rows2.add(new String[]{cursor2.getString(cursor2.getColumnIndexOrThrow("rating_num")),
+                                        cursor2.getString(cursor2.getColumnIndexOrThrow("rating_sum"))});
+                            }
+                            cursor2.close();
+
+                            if (rows2.size() == 0) {
+                                cv = new ContentValues();
+                                cv.put("rating_sum", String.valueOf(rating));
+                                cv.put("rating_num", "1");
+                                cv.put("cook_email", row[0]);
+
+                                db.insert(codes.aydin.mealer.DBHelper.RATING_TABLE_NAME, null, cv);
+                            } else {
+                                String[] currentRating = rows2.get(0);
+
+                                int newNum = Integer.parseInt(currentRating[0]) + 1;
+                                int newSum = Integer.parseInt(currentRating[1]) + Integer.parseInt(String.valueOf(rating));
+                                System.out.println(newNum);
+                                System.out.println(newSum);
+
+                                cv = new ContentValues();
+                                cv.put("rating_sum", String.valueOf(newSum));
+                                cv.put("rating_Num", String.valueOf(newNum));
+
+                                db.update(codes.aydin.mealer.DBHelper.RATING_TABLE_NAME, cv, "cook_email = ?", new String[]{row[0]});
+                            }
+
                             Intent launchActivity = new Intent(getApplicationContext(), UserOrders.class).putExtra("email", useremail);
                             startActivity(launchActivity);
                             finish();

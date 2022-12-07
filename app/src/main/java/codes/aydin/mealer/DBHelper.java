@@ -16,6 +16,7 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String SUSPENSION_TABLE_NAME = "suspensions";
     public static final String MEAL_TABLE_NAME = "meals";
     public static final String ORDER_TABLE_NAME = "orders";
+    public static final String RATING_TABLE_NAME = "ratings";
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Mealer.db";
@@ -120,7 +121,6 @@ public class DBHelper extends SQLiteOpenHelper
         2: Salad
         3: Side
         4: Dessert
-
         CuisineType:
         0: African
         1: American
@@ -180,11 +180,16 @@ public class DBHelper extends SQLiteOpenHelper
                 "meal_rating DECIMAL(18, 2)," +
                 "order_id INTEGER PRIMARY KEY AUTOINCREMENT)");
 
-        String[] order1 = {"ali@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Butter Chicken", "14.99"};
-        String[] order2 = {"ali@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Shai Paneer", "13.99"};
-        String[] order3 = {"ali@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Gulab Jamun", "7.99"};
-        String[] order4 = {"ali@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Naan", "4.99"};
-        String[] order5 = {"ali@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Mango Lassi", "4.99"};
+        db.execSQL("CREATE TABLE " + RATING_TABLE_NAME + " (" +
+                "cook_email VARCHAR NOT NULL PRIMARY KEY," +
+                "rating_sum DECIMAL(18, 2) NOT NULL DEFAULT 0," +
+                "rating_num DECIMAL(18, 2) NOT NULL DEFAULT 0)");
+
+        String[] order1 = {"abhang@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Butter Chicken", "14.99"};
+        String[] order2 = {"abhang@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Shai Paneer", "13.99"};
+        String[] order3 = {"abhang@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Gulab Jamun", "7.99"};
+        String[] order4 = {"abhang@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Naan", "4.99"};
+        String[] order5 = {"abhang@mealer.app", "Ali", "Bhangu", "aydin@mealer.app", "2008-11-11 13:23:44", "2008-11-12 13:23:44", "Mango Lassi", "4.99"};
 
         String[][] orders = {order1, order2, order3, order4, order5};
 
@@ -214,6 +219,7 @@ public class DBHelper extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + SUSPENSION_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + MEAL_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + ORDER_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + RATING_TABLE_NAME);
 
         onCreate(db);
     }

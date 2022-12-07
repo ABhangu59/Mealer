@@ -1,81 +1,36 @@
 package codes.aydin.mealer;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-import java.util.List;
+public class CookPage extends AppCompatActivity {
 
-
-public class CookPage extends AppCompatActivity
-{
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cook_page);
-
         findViewById(R.id.btnCookLogout).setOnClickListener(view -> finish());
 
-        // Get cook email passed thru to page
-        String cookEmail = getIntent().getExtras().getString("cook_email");
+        String[] userinfo = getIntent().getExtras().getStringArray("userinfo");
 
-        findViewById(R.id.btnAddMeal).setOnClickListener(view -> {
-            Intent launchActivity = new Intent(getApplicationContext(), IndividualMeal.class).putExtra("mealInfo", new String[]{cookEmail});
+        String cookEmail = userinfo[0];
+        String firstName = userinfo[1];
+
+        TextView welcomeMsg = findViewById(R.id.txtCookWelcome);
+        welcomeMsg.setText("Welcome, " + firstName);
+
+        findViewById(R.id.btnYourMenu).setOnClickListener(view -> {
+            Intent launchActivity = new Intent(getApplicationContext(), MenuPage.class).putExtra("cook_email", cookEmail);
             startActivity(launchActivity);
-            finish();
         });
 
-        LinearLayout menuLayout = findViewById(R.id.menuLayout);
+        findViewById(R.id.btnPendingOrders).setOnClickListener(view -> {
+            Intent launchActivity = new Intent(getApplicationContext(), PendingOrders.class).putExtra("cook_email", cookEmail);
+            startActivity(launchActivity);
+        });
 
-        DBHelper DBHelper = new DBHelper(getApplicationContext());
-
-        SQLiteDatabase db = DBHelper.getReadableDatabase();
-
-        String[] projection = {"cook_email","meal_name","meal_type","cuisine_type","description","allergens","ingredients","price","currently_offered","meal_id", "cook_email"};
-        String selection = "cook_email = ?";
-        String[] selectionArgs = {cookEmail};
-
-        Cursor cursor = db.query(codes.aydin.mealer.DBHelper.MEAL_TABLE_NAME, projection, selection, selectionArgs, null, null, null);
-
-        List<String[]> rows = new ArrayList<>();
-        while(cursor.moveToNext()) {
-            String[] row = {cursor.getString(cursor.getColumnIndexOrThrow("cook_email")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("meal_name")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("meal_type")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("cuisine_type")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("description")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("ingredients")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("allergens")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("price")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("currently_offered")),
-                    cursor.getString(cursor.getColumnIndexOrThrow("meal_id"))};
-            rows.add(row);
-        }
-        cursor.close();
-
-
-        // For meal in meals by cook, build a button and add it to the scroll view.
-        for (String[] row : rows) {
-            Button complaintBtn = new Button(this);
-            complaintBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            complaintBtn.setText(row[1]);
-            complaintBtn.setId(View.generateViewId());
-
-            complaintBtn.setOnClickListener(l -> {
-                Intent launchActivity = new Intent(getApplicationContext(), IndividualMeal.class).putExtra("mealInfo", row);
-                startActivity(launchActivity);
-                finish();
-            });
-
-            menuLayout.addView(complaintBtn);
-        }
     }
 }

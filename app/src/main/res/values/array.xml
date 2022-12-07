@@ -59,8 +59,15 @@
         <item>Italian</item>
         <item>Mediterranean</item>
         <item>Caribbean</item>
-
         <item>Indian</item>
+    </string-array>
+
+    <string-array name="ratings">
+        <item>1 star</item>
+        <item>2 stars</item>
+        <item>3 stars</item>
+        <item>4 stars</item>
+        <item>5 stars</item>
     </string-array>
 
 </resources>

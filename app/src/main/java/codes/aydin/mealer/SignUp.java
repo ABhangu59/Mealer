@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,6 @@ import android.widget.Toast;
 import java.io.ByteArrayOutputStream;
 import java.util.Locale;
 import java.util.regex.Pattern;
-import android.net.Uri;
 
 public class SignUp extends Activity {
 
@@ -165,7 +165,7 @@ public class SignUp extends Activity {
 
             if (!valid)
                 Toast.makeText(getApplicationContext(),
-                    "Please fill out all of the fields", Toast.LENGTH_LONG).show();
+                        "Please fill out all of the fields", Toast.LENGTH_LONG).show();
             else {
 
                 User user = null;
@@ -212,7 +212,7 @@ public class SignUp extends Activity {
                 if (userType.equals("client"))
                     submitInfo = new Intent(getApplicationContext(),UserScreen.class).putExtra("userinfo", new String[]{email, firstName});
                 else if (userType.equals("cook"))
-                    submitInfo = new Intent(getApplicationContext(),CookPage.class).putExtra("cook_email", email);
+                    submitInfo = new Intent(getApplicationContext(), MenuPage.class).putExtra("cook_email", email);
                 startActivity(submitInfo);
                 finish();
             }
